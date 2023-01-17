@@ -96,7 +96,7 @@ to different currencies:
 
 - `[POST] /api/currency` Subscribe new currency
 - `[PUT] /api/currency/:code` Unsubscribe currency
-- [GET] /api/currency` Get subscribed currency codes
+- `[GET] /api/currencies` Get subscribed currencies
 
 We want a view that lists the subscribed currencies along with their forex data, and that allows to
 add or remove subscriptions. Here is a mockup of it could look, although you are free to design it
@@ -121,8 +121,8 @@ We provide you with Makefile rules for you to lift individual services:
 
 - The _services/services_ directory holds the code for the API. The following make commands are available:
      - `service-build` Builds the corresponding Docker images.
-     - `backend-run` Executes just once the service.. _Requires having the platform up (you can use make backend-up)_
-     - `backend-dev` Executes the service each time the code changes. _Requires having the platform up (you can use make backend-up)_
+     - `service-run` Executes just once the service.. _Requires having the platform up (you can use make service-up)_
+     - `service-dev` Executes the service each time the code changes. _Requires having the platform up (you can use make service-up)_
      
 - The _services/front-end_ directory holds the code for the Front-end. The following make commands are available:
      - `frontend-build` Builds the corresponding app dist files.
