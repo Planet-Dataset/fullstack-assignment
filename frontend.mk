@@ -1,12 +1,10 @@
 frontend-build:
-	npm run build
+	${DOCKER_COMPOSE} build front
 
-services/front-end/node_modules/.bin/ng:
-	cd services/front-end && npm install
+frontend-up:
+	${DOCKER_COMPOSE} up front
 
-frontend-install: services/front-end/node_modules/.bin/ng
+frontend-down:
+	${DOCKER_COMPOSE} up front
 
-frontend-dev: services/front-end/node_modules/.bin/ng
-	cd services/front-end && npm run start
-
-$PHONY: frontend-build frontend-dev frontend-install
+$PHONY: frontend-build frontend-up frontend-down

@@ -35,3 +35,14 @@ services:
       - 27017:27017
     volumes:
       - ./dump:/dbdump
+  front:
+    image: home-assignment-front
+    container_name: home-assignment-front
+    build:
+      context: ./services/front-end
+      dockerfile: ./Dockerfile
+    command: sh -c "npm run start"
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./services/front-end/src:/app/src
