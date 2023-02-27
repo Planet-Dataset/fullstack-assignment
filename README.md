@@ -48,6 +48,8 @@ The code is organized as follows:
 - `frontend.mk` - Makefile rules for the web app.
 - `backend.mk` - Makefile rules for the API.
 - `service.mk` - Makefile rules for the asynchronous task.
+- `db.mk` - Makefile rules for the database.
+- `dev.mk` - Makefile rules with PHONY targets for easier development.
 - `README.md` - This file.
 - `LICENSE`
 
@@ -130,16 +132,23 @@ however you feel it works best.
   of CSS3 and SCSS features to keep styles easily maintainable.
 
 ## How to run the services
-We provide you with Makefile rules for you to lift individual services:
+We provide you with Makefile rules for you to lift individual services.
+> By default the new `docker compose` api is used. In case that you are using an older version of Docker compose, you
+may override the command when invoking make:
+```bash
+# This would start the services using "docker-compose" instead of "docker compose"
+DOCKER_COMPOSE="docker-compose" make start -e
+```
+- There are makefile targets that allow basic administration of the database:
+     - `db-up` Starts the databse.
+     - `db-down` Stops the databse.
+     - `db-dump` Dumps the database contents to a _dump_ folder. _Requires having the database up
+     - `db-load` Loads the database contents from a _dump_ folder. _Requires having the database up
+
 - The _services/api_ directory holds the code for the API. The following make commands are available:
      - `backend-build` Builds the corresponding Docker images.
      - `backend-up` Raises the platform.
-     - `backend-up-slim` Raises the platform without the service _service_ running in the background (just the db and API).
      - `backend-down` Shuts down the platform. _Requires having the platform up (you can use make backend-up)_
-     - `backend-dump` Dumps the database contents to a _dump_ folder. _Requires having the platform up (you can use make backend-up)_
-     - `backend-load` Loads the database contents from a _dump_ folder. _Requires having the platform up (you can use make backend-up)_
-     - `backend-dbshell` Connects to the database shell. _Requires having the platform up (you can use make backend-up)_
-     - `backend-test` Runs the API tests with database dump and restore. _Requires having the platform up (you can use make backend-up)_
 
 - The _services/services_ directory holds the code for the API. The following make commands are available:
      - `service-build` Builds the corresponding Docker images.
@@ -157,14 +166,12 @@ cases that we think you could face:
 * Having the API up (with hot-reloading), along with the generic service (with**out** hot-reloading) running periodically using cron.
   This would be the complete platform running:
      ```bash
-     make backend-up
-     make frontend-dev
+     make start
      ```
 * Having the API up (with hot-reloading) without the generic service. This way you could develop the API and web app and, whenever
   you want to execute the service, you still have the option to do it once or have it execute each time the code has changed:
      ```bash
-     make backend-up-slim
-     make frontend-dev
+     make start-slim
      # execute the generic service once
      make service-run
      # execute the generic service each time the code changes (hot-reloading)
